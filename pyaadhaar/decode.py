@@ -47,7 +47,10 @@ class AadhaarSecureQr:
     # Extracts the information from the decompressed array
     def _extract_info_from_decompressed_array(self) -> None:
         for i in range(len(self.details)):
-            self.data[self.details[i]] = self.decompressed_array[self.delimeter[i] + 1:self.delimeter[i+1]].decode("ISO-8859-1")
+             if i + 1 < len(self.delimiter):
+                    start_idx = self.delimiter[i] + 1
+                    end_idx = self.delimiter[i + 1]
+                    self.data[self.details[i]] = self.decompressed_array[start_idx:end_idx].decode("ISO-8859-1")
         self.data['aadhaar_last_4_digit'] = self.data['referenceid'][:4]
         self.data['aadhaar_last_digit'] = self.data['referenceid'][3]
         # Default values to 'email' and 'mobile
